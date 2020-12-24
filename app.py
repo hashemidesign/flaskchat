@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_socketio import SocketIO, send, emit
 
 
@@ -6,6 +6,8 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'my_super_secret_key'
 app.config['DEBUG'] = True
 s_io = SocketIO(app)
+
+users = []
 
 
 @app.route('/')
@@ -29,6 +31,12 @@ def originate():
 def receive_message_from_user(message):
     print(message)
     emit('from flask', message.upper(), broadcast=True, namespace='/')
+
+
+@s_io.on('username', namespace='/private')
+def receive_username(username):
+    users.append({username: request.sid})
+    print(users)
 
 
 '''

@@ -22,7 +22,16 @@ $(document).ready(function () {
         private_socket.emit('private_message', {'username': recipient, 'message': message});
     });
 
+    $('#join_room').on('click', function () {
+        let room = $('#room_to_join').val();
+        private_socket.emit('join_room', room);
+    });
+
     private_socket.on('new_private_message', function(message) {
+        console.log(message);
+    });
+
+    private_socket.on('room_message', function(message) {
         console.log(message);
     });
 

@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from flask_socketio import SocketIO, send, emit
+from flask_socketio import SocketIO, send, emit, join_room
 
 
 app = Flask(__name__)
@@ -46,6 +46,13 @@ def private_message(payload):
     message = payload['message']
 
     emit('new_private_message', message, room=recipient_session_id)
+
+
+@s_io.on('join_room', namespace='/private')
+def handle_join_room(room):
+    print(room)
+    join_room(room)
+    emit('room_message', 'a new user has joined!', room=room)
 
 
 '''

@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request
-from flask_socketio import SocketIO, send, emit, join_room
-
+from flask_socketio import SocketIO, send, emit, join_room, disconnect
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'my_super_secret_key'
@@ -53,6 +52,22 @@ def handle_join_room(room):
     print(room)
     join_room(room)
     emit('room_message', 'a new user has joined!', room=room)
+
+
+# on_connect & on_disconnect are useful for authentication!
+@s_io.on('connect', namespace='/private')
+def on_connect():
+    print('connection established')
+
+
+@s_io.on('disconnect', namespace='/private')
+def on_disconnect():
+    print('connection ended')
+
+
+@s_io.on('disconnect_me', namespace='/private')
+def disconnect_me(msg):
+    disconnect()
 
 
 '''

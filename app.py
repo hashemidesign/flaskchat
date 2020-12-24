@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_socketio import SocketIO
 
 
@@ -9,9 +9,14 @@ s_io = SocketIO(app)
 
 
 @app.route('/')
-def hello_world():
-    return 'Hello World!'
+def home():
+    return render_template('index.html')
+
+
+@s_io.on('message')
+def received_message(message):
+    print(message)
 
 
 if __name__ == '__main__':
-    s_io.run(app)
+    s_io.run(app, port=5500)

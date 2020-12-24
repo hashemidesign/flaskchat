@@ -7,7 +7,7 @@ app.config['SECRET_KEY'] = 'my_super_secret_key'
 app.config['DEBUG'] = True
 s_io = SocketIO(app)
 
-users = []
+users = {}
 
 
 @app.route('/')
@@ -35,8 +35,17 @@ def receive_message_from_user(message):
 
 @s_io.on('username', namespace='/private')
 def receive_username(username):
-    users.append({username: request.sid})
-    print(users)
+    # users.append({username: request.sid})
+    users[username] = request.sid
+    print('user name added')
+
+
+@s_io.on('private_message', namespace='/private')
+def private_message(payload):
+    recipient_session_id = users[payload['username']]
+    message = payload['message']
+
+    emit('new_private_message', message, room=recipient_session_id)
 
 
 '''

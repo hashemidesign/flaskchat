@@ -14,7 +14,17 @@ $(document).ready(function () {
     $('#send_username').on('click', function () {
         let username = $('#username').val();
         private_socket.emit('username', username);
-    })
+    });
+
+    $('#send_private_message').on('click', function () {
+        let recipient = $('#send_to_username').val();
+        let message = $('#send_to_message').val();
+        private_socket.emit('private_message', {'username': recipient, 'message': message});
+    });
+
+    private_socket.on('new_private_message', function(message) {
+        console.log(message);
+    });
 
 
     socket.on('from flask', function(message) {

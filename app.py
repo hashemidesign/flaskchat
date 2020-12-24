@@ -22,7 +22,7 @@ def received_message(message):
 @s_io.on('message from user')
 def receive_message_from_user(message):
     print(message)
-    emit('from flask', message.upper())
+    emit('from flask', message.upper(), broadcast=True)
 
 
 '''

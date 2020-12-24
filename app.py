@@ -19,6 +19,13 @@ def received_message(message):
     print(message)
 
 
+@s_io.on('message from user')
+def receive_message_from_user(message):
+    print(message)
+    emit('from flask', message.upper())
+
+
+'''
 @s_io.on('custom event')
 def receive_custom_event(message):
     print(f'THE CUSTOM MESSAGE EMITTED FROM JS: {message}')
@@ -29,6 +36,7 @@ def receive_custom_event(message):
 def receive_json_event(message):
     print(f'THE CUSTOM MESSAGE EMITTED FROM JSON: {message["name"]}')
     emit('from flask that received json', {'extension': 'flask socket io'})
+'''
 
 
 if __name__ == '__main__':

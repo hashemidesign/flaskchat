@@ -5,10 +5,16 @@ $(document).ready(function () {
         let message = $('#message').val();
 
         socket.emit('message from user', message);
-        socket.on('from flask', function(message) {
-            console.log(message);
-        });
     }); // end on click function
+
+    socket.on('from flask', function(message) {
+        console.log(message);
+    });
+
+    socket.on('server originated', function(message) {
+        console.log(message);
+    });
+
 
     /*
 

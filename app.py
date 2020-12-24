@@ -25,5 +25,11 @@ def receive_custom_event(message):
     emit('from flask', 'this is from server emit')
 
 
+@s_io.on('json event')
+def receive_json_event(message):
+    print(f'THE CUSTOM MESSAGE EMITTED FROM JSON: {message["name"]}')
+    emit('from flask that received json', {'extension': 'flask socket io'})
+
+
 if __name__ == '__main__':
     s_io.run(app, port=5500)

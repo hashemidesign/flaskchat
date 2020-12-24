@@ -19,16 +19,16 @@ def received_message(message):
     print(message)
 
 
-@s_io.on('message from user')
-def receive_message_from_user(message):
-    print(message)
-    emit('from flask', message.upper(), broadcast=True)
-
-
 @app.route('/originate')
 def originate():
     s_io.emit('server originated', 'something happened on the server')
     return '<h1>sent!</h1>'
+
+
+@s_io.on('message from user', namespace='/messages')
+def receive_message_from_user(message):
+    print(message)
+    emit('from flask', message.upper(), broadcast=True, namespace='/')
 
 
 '''

@@ -1,11 +1,14 @@
 $(document).ready(function () {
     let socket = io.connect('http://127.0.0.1:5500');
+    // using namespace to group particular messages
+    let socket_messages = io.connect('http://127.0.0.1:5500/messages');
 
     $('#send').on('click', function() {
         let message = $('#message').val();
 
-        socket.emit('message from user', message);
+        socket_messages.emit('message from user', message);
     }); // end on click function
+
 
     socket.on('from flask', function(message) {
         console.log(message);
